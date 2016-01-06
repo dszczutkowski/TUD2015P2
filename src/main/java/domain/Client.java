@@ -4,6 +4,9 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "client.all", query = "SELECT c FROM Client c"),
+})
 public class Client {
 
 	@Id
@@ -26,7 +29,7 @@ public class Client {
 		this.meals = meals;
 	}
 
-	@OneToMany(mappedBy = "clients")
+	@OneToMany(mappedBy = "clients", cascade = CascadeType.ALL)
 	private List<Meal> meals;
 
 	public long getIdClient() {

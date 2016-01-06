@@ -3,6 +3,9 @@ package domain;
 import javax.persistence.*;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "meal.all", query = "SELECT m FROM Meal m"),
+})
 public class Meal {
 	
 	@Id
