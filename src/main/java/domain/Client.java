@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -29,8 +30,8 @@ public class Client {
 		this.meals = meals;
 	}
 
-	@OneToMany(mappedBy = "clients", cascade = CascadeType.ALL)
-	private List<Meal> meals;
+	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Meal> meals = new ArrayList<Meal>();
 
 	public long getIdClient() {
 		return idClient;
