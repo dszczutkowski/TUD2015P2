@@ -19,4 +19,6 @@ public interface Manager {
 	public Meal getMeal(Long idMeal);
 	public List<Meal> getAllMeals();
 	
+	public List<Meal>getMealByPattern(String name);
+	public List<Meal>getClientWithMeal(Client c);
 }

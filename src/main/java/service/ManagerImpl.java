@@ -1,6 +1,9 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +103,31 @@ public class ManagerImpl implements Manager {
 	@Override
 	public List<Meal> getAllMeals() {
 		return sf.getCurrentSession().getNamedQuery("meal.all").list();
+	}
+
+	@Override
+	public List<Meal> getMealByPattern(String name) {
+		List<Meal> meals = new ArrayList<Meal>();
+		Pattern p = Pattern.compile(".*" + name + ".*");
+		Matcher match;
+		for(Meal m : getAllMeals())
+		{
+			match = p.matcher(m.getName());
+			if(match.matches())
+				meals.add(m);
+		}
+		return meals;
+	}
+
+	@Override
+	public List<Meal> getClientWithMeal(Client c) {
+		List<Meal> all = getAllMeals();
+		List<Meal> mc = new ArrayList<Meal>();
+		for(Meal m : all)
+			if(m.getClient().getIdClient() == c.getIdClient())
+				mc.add(m);
+		
+		return mc;
 	}
 	
 }
