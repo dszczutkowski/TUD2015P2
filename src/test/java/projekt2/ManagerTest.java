@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.junit.After;
 import org.junit.Before;
@@ -336,5 +337,85 @@ public class ManagerTest {
 		assertEquals(e+ne, meals2.size());
 		assertEquals(meals.size(), meals2.size());
 		
+	}
+	
+	@Test
+	public void testGetMealByPattern() {
+		
+		Client c = new Client();
+		c.setSeatNumber(SEAT_1);
+		c.setPayment(PAYMENT_1);
+		c.setWine(WINE_1);
+		manager.addClient(c);
+		
+		Meal m = new Meal();
+		m.setName(NAME_1);
+		m.setAmount(AMOUNT_1);
+		m.setPrice(PRICE_1);
+		m.setClient(c);
+		manager.addMeal(m);
+		
+		String pattern = NAME_1;
+		int count = 0;
+		
+		for(Long l : addedMeals) {
+			if(Pattern.compile(".*" + pattern + ".*").matcher(manager.getMeal(l).getName()).matches())
+				count++;
+		}
+		
+		List<Meal> meals = manager.getMealByPattern(pattern);
+		
+		assertEquals(meals.size(), count+1);
+		
+		pattern = "pattern";
+		count = 0;
+		
+		for(Long l : addedMeals) {
+			if(Pattern.compile(".*" + pattern + ".*").matcher(manager.getMeal(l).getName()).matches())
+				count++;
+		}
+		
+		meals = manager.getMealByPattern(pattern);
+		
+		assertEquals(meals.size(), count);
+		
+	}
+	
+	@Test
+	public void TestGetClientWithMeal() {
+		Client c1 = new Client();
+		c1.setSeatNumber(SEAT_1);
+		c1.setPayment(PAYMENT_1);
+		c1.setWine(WINE_1);
+		manager.addClient(c1);
+		
+		Client c2 = new Client();
+		c2.setSeatNumber(SEAT_2);
+		c2.setPayment(PAYMENT_2);
+		c2.setWine(WINE_2);
+		manager.addClient(c2);
+		
+		Meal m = new Meal();
+		m.setName(NAME_1);
+		m.setAmount(AMOUNT_1);
+		m.setPrice(PRICE_1);
+		m.setClient(c1);
+		manager.addMeal(m);
+		
+		Meal m2 = new Meal();
+		m2.setName(NAME_2);
+		m2.setAmount(AMOUNT_2);
+		m2.setPrice(PRICE_2);
+		m2.setClient(c1);
+		manager.addMeal(m2);
+		
+		assertEquals(manager.getClientWithMeal(c1).size(), 2);
+		assertEquals(manager.getClientWithMeal(c2).size(), 0);
+		
+		for(Meal meal : manager.getClientWithMeal(c1)) {
+			assertEquals(c1.getIdClient(), meal.getClient().getIdClient());
+			assertEquals(c1.getPayment(), meal.getClient().getPayment(), 0);
+			assertEquals(c1.getSeatNumber(), meal.getClient().getSeatNumber());
+		}
 	}
 }
