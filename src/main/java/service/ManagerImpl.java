@@ -118,6 +118,11 @@ public class ManagerImpl implements Manager {
 		}
 		return meals;
 	}
+	
+	@Override
+	public Meal getPattern(String name) {
+		return (Meal) sf.getCurrentSession().getNamedQuery("meal.pattern").setString("name", name).uniqueResult();
+	}
 
 	@Override
 	public List<Meal> getClientWithMeal(Client c) {

@@ -30,7 +30,7 @@ public class Client {
 		this.meals = meals;
 	}
 
-	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Meal> meals = new ArrayList<Meal>();
 
 	public long getIdClient() {

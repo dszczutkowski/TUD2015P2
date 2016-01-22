@@ -22,7 +22,7 @@ import service.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:beans.xml" })
-@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
+@TransactionConfiguration(transactionManager = "txManager", defaultRollback = false)
 @Transactional
 public class ManagerTest {
 
@@ -379,6 +379,26 @@ public class ManagerTest {
 		
 		assertEquals(meals.size(), count);
 		
+	}
+	
+	@Test
+	public void TestPattern() {
+		Client c = new Client();
+		c.setSeatNumber(SEAT_1);
+		c.setPayment(PAYMENT_1);
+		c.setWine(WINE_1);
+		manager.addClient(c);
+		
+		Meal m = new Meal();
+		m.setName(NAME_1);
+		m.setAmount(AMOUNT_1);
+		m.setPrice(PRICE_1);
+		m.setClient(c);
+		manager.addMeal(m);
+		
+		assertEquals(manager.getPattern(NAME_1), m);
+
+		assertNull(manager.getPattern("pattern"));
 	}
 	
 	@Test

@@ -21,4 +21,5 @@ public interface Manager {
 	
 	public List<Meal>getMealByPattern(String name);
 	public List<Meal>getClientWithMeal(Client c);
+	public Meal getPattern(String name);
 }

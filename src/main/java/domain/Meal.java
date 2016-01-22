@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "meal.all", query = "SELECT m FROM Meal m"),
+	@NamedQuery(name = "meal.pattern", query = "SELECT m FROM Meal m WHERE m.name LIKE :name")
 })
 public class Meal {
 	
